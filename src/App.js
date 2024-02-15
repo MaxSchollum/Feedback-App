@@ -1,40 +1,34 @@
-import { v4 as uuidv4 } from 'uuid'
-import { useState } from 'react'
-import React from 'react'
-import Header from "./Components/Header.jsx"
-import FeedbackList from "./Components/FeedbackList.jsx"
-import FeedbackStats from "./Components/FeedbackStats.jsx"
-import FeedbackData from './Data/FeedbackData.js'
-import FeedbackForm from './Components/FeedbackForm.jsx'
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React from 'react';
+import Header from './Components/Header.jsx';
+import FeedbackList from './Components/FeedbackList.jsx';
+import FeedbackStats from './Components/FeedbackStats.jsx';
+import FeedbackForm from './Components/FeedbackForm.jsx';
+import About from './Pages/About.jsx';
+import {FeedbackProvider} from './Context/FeedbackContext.js';
+import AboutIcon from './Components/AboutIcon.jsx';
 
 function App() {
 
-    const [feedback, setFeedback] = useState(FeedbackData)
-
-    const deleteFeedback = (id) => {
-        if(window.confirm("Are you sure?")){
-            setFeedback(feedback.filter((item) => item.id !== id))
-        }
-    }
-
-    const addFeedback = (newFeedback) => {
-        newFeedback.id = uuidv4()
-        setFeedback([newFeedback, ...feedback])
-    }
-
     return (
-        <>
+        <FeedbackProvider>
+        <Router>
             <Header />
             <div className="Container">
-                <FeedbackForm handleAdd={addFeedback}/>
-                <FeedbackStats feedback={feedback}/>
-                <FeedbackList 
-                feedback={feedback}
-                handleDelete={deleteFeedback} />
-            </div> 
-        </>
-    )
-};
+                <Routes>
+                    <Route exact path="/" element={<>
+                        <FeedbackForm />
+                        <FeedbackStats/>
+                        <FeedbackList />
+                        <p><a href="/about" style={{color: "white"}}>About</a></p>
+                        <AboutIcon />
+                    </>} />
+                    <Route path="/about" element={<About />}/>
+                </Routes>
+            </div>
+        </Router>
+        </FeedbackProvider>
+    );
+}
 
-export default App
+export default App;
