@@ -8,6 +8,8 @@ import About from './Pages/About.jsx';
 import {FeedbackProvider} from './Context/FeedbackContext.js';
 import AboutIcon from './Components/AboutIcon.jsx';
 
+//i added build, and want to see if thats commited.
+
 function App() {
 
     return (
